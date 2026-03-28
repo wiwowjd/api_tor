@@ -1,15 +1,16 @@
 #!/bin/bash
 
-# Start Tor
+# Start Tor di background
 tor &
 
-echo "Waiting for Tor (9050)..."
+echo "Waiting for Tor to fully bootstrap (SocksPort 9050)..."
 
-# Tunggu sampai port 9050 kebuka
+# Loop sampai port 9050 terbuka
 while ! nc -z 127.0.0.1 9050; do
   sleep 1
 done
 
-echo "Tor ready! Starting Gunicorn..."
+echo "Tor is ready! Starting Gunicorn..."
 
+# Jalankan Flask/Gunicorn di PID1 supaya container tetap hidup
 exec gunicorn -b 0.0.0.0:$PORT main:app
