@@ -55,6 +55,8 @@ class whatsapp:
             ctrlPort=9051
             
             with TorRequest(proxy_port=proxyPort, ctrl_port=ctrlPort, password=None) as tr:
+                tr.reset_identity()
+                time.sleep(3)
                 response = tr.get(
                     f'https://whatsapp.checkleaked.cc/api/phone/{number}',
                     params=self.params,
