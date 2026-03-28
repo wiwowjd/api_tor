@@ -1,6 +1,7 @@
 import os
 import time
 import random
+import requests
 from flask import Flask, jsonify, request
 from torrequest import TorRequest
 from pypasser import reCaptchaV3
@@ -22,7 +23,7 @@ class whatsapp:
 
     def Get(self,number: int) -> dict:
         bypassCaptchaV3 = reCaptchaV3(self.anchor)
-        getUa = random.choice(Requs.get(self.UA).text.split("\n"))
+        getUa = random.choice(requests.get(self.UA).text.split("\n"))
         self.params = {
             'token': bypassCaptchaV3,
             'telegram': self.telegram,
