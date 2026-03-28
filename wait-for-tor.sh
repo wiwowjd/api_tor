@@ -1,12 +1,15 @@
 #!/bin/bash
-# Start Tor in background
+
+# Start Tor
 tor &
 
-# Wait until Tor is bootstrapped
-echo "Waiting for Tor to boot..."
+echo "Waiting for Tor (9050)..."
+
+# Tunggu sampai port 9050 kebuka
 while ! nc -z 127.0.0.1 9050; do
   sleep 1
 done
 
-# Start Gunicorn
+echo "Tor ready! Starting Gunicorn..."
+
 exec gunicorn -b 0.0.0.0:$PORT main:app
