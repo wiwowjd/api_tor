@@ -1,8 +1,8 @@
 FROM python:3.10-slim
 
-# Install Tor
+# Install Tor + netcat
 RUN apt-get update && \
-    apt-get install -y tor && \
+    apt-get install -y tor netcat-openbsd && \
     rm -rf /var/lib/apt/lists/*
 
 # Copy tor config
@@ -12,12 +12,11 @@ COPY torrc /etc/tor/torrc
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy app
+# App
 WORKDIR /app
 COPY . .
 
-# Run Tor + Gunicorn
-# ⚡ wait-for-tor.sh memastikan Tor fully bootstrapped sebelum Gunicorn jalan
+# Script
 COPY wait-for-tor.sh /wait-for-tor.sh
 RUN chmod +x /wait-for-tor.sh
 
